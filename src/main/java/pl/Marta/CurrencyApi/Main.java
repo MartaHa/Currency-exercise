@@ -44,6 +44,6 @@ public class Main {
         /* Calculating the average buying course */
 
         System.out.println("The average buying course is: " +calculations.averageBuyingPrice(answer,days));
-//        System.out.println(calculations.standardSellDeviation(answer,days));
+        System.out.println("The standard deviation for selling currency is: " +calculations.standardSellDeviation(answer,days));
     }
 }

@@ -4,6 +4,7 @@ import jdk.nashorn.internal.parser.JSONParser;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.ArrayList;
@@ -21,7 +22,7 @@ public class CalcOnCurrencies {
 
     /* counting average buying price */
 
-    protected double averageBuyingPrice(String answer, int days) {
+    protected BigDecimal averageBuyingPrice(String answer, int days) {
 
 
         double sumOfPrices = 0;
@@ -40,19 +41,19 @@ public class CalcOnCurrencies {
         for (int i = 0; i < ratesArray.length(); i++) {
 
             JSONObject day = ratesArray.getJSONObject(i);
-            //Store the JSON object rates in JSON array as objects (in order to get from level 2 element bid)
             double currencyPrice = day.getDouble("bid");
             sumOfPrices += currencyPrice;
         }
 
-        double averageBuyingPrice = sumOfPrices / days;
-        return averageBuyingPrice;
+        double averageBuyingPrice = sumOfPrices/days;
+        BigDecimal averageBuyingPriceRounded = new BigDecimal(averageBuyingPrice).setScale(4, BigDecimal.ROUND_HALF_DOWN);
+        return averageBuyingPriceRounded;
     }
 
 
     /* counting standard sell deviation */
 
-    protected double standardSellDeviation(String answer, int days) {
+    protected BigDecimal standardSellDeviation(String answer, int days) {
 
 
         double sumOfSellingPrices = 0;
@@ -61,15 +62,17 @@ public class CalcOnCurrencies {
 
         /* creating json array from the String Api */
 
-        JSONObject jasonObject = new JSONObject(answer);
-        JSONArray jaArr = (JSONArray) jasonObject.get("rates");
+        JSONObject answerObject = new JSONObject(answer);
 
+        /* Array for Rates */
 
-        for (int i = 0; i < jaArr.length(); i++) {
+        JSONArray ratesArray = answerObject.getJSONArray("rates");
 
-            JSONObject jsonobj_1 = (JSONObject) jaArr.get(i);
+        /*Array for days */
 
-            //Store the JSON object rates in JSON array as objects (in order to get from level 2 element bid)
+        for (int i = 0; i < ratesArray.length(); i++) {
+
+            JSONObject jsonobj_1 = (JSONObject) ratesArray.get(i);
             double currencySellPrice = jsonobj_1.getDouble("ask");
             listOfSellingPrices.add(currencySellPrice);
             sumOfSellingPrices += currencySellPrice;
@@ -83,7 +86,8 @@ public class CalcOnCurrencies {
         }
         double variancy = temporarySum / days;
         double standardSellDeviation = Math.sqrt(variancy);
-        return standardSellDeviation;
+        BigDecimal standardSellDeviationRounded = new BigDecimal(standardSellDeviation).setScale(4, BigDecimal.ROUND_HALF_DOWN);
+        return standardSellDeviationRounded;
     }
 
 }
