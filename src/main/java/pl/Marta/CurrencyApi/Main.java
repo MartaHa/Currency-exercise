@@ -2,6 +2,7 @@ package pl.Marta.CurrencyApi;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
 public class Main {
@@ -11,6 +12,8 @@ public class Main {
 
 
         /* Getting the information from the User */
+
+
 
         String currency;
         LocalDate startDate;
@@ -40,6 +43,7 @@ public class Main {
         /* Calculating number of days beetwen the dates */
 
         int days = calculations.getNumberOfDays(startDate, endDate);
+        System.out.println(days);
 
         /* Calculating the average buying course */
 

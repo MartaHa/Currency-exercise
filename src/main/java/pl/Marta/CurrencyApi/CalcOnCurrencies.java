@@ -1,12 +1,13 @@
 package pl.Marta.CurrencyApi;
 
 import jdk.nashorn.internal.parser.JSONParser;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
-
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.Period;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +17,7 @@ public class CalcOnCurrencies {
 
     protected int getNumberOfDays(LocalDate startDate, LocalDate endDate) {
         Period period = Period.between(startDate, endDate);
-        int days = period.getDays();
+        int days = period.getDays()+1;
         return days;
     }
 
